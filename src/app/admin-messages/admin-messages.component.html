@@ -1,0 +1,41 @@
+<div class="messages-container">
+  <h2>Сообщения от пользователей</h2>
+  
+  <!-- Простой спиннер вместо Material -->
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div> Загрузка...
+  </div>
+  
+  <div *ngIf="error" class="error-alert">
+    {{ error }}
+    <button (click)="loadMessages()">Повторить</button>
+  </div>
+  
+  <ng-container *ngIf="!isLoading && !error">
+    <div *ngIf="messages.length === 0" class="empty-message">
+      Нет новых сообщений
+    </div>
+    
+    <div *ngFor="let msg of messages" class="message-card" [ngClass]="msg.status">
+      <div class="message-header">
+        <span class="badge">#{{ msg.id }}</span>
+        <span class="date">{{ formatDate(msg.created_at) }}</span>
+      </div>
+      
+      <div class="contact-info">
+        <div>📧 {{ msg.email }}</div>
+        <div>📱 {{ msg.phone }}</div>
+      </div>
+      
+      <div class="message-content">
+        {{ msg.message }}
+      </div>
+      <div class="message-actions">
+        <button (click)="copyToClipboard(msg.email)">📋 Копировать email</button>
+        <button (click)="copyToClipboard(msg.phone)">📋 Копировать телефон</button>
+        <button class="delete" (click)="deleteMessage(msg.id)">🗑 Удалить</button>
+        <button (click)="toggleStatus(msg)">{{ msg.status === 'done' ? '↩ Вернуть в новые' : '✅ Обработано' }}</button>
+      </div>
+    </div>
+  </ng-container>
+</div>

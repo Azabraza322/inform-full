@@ -1,0 +1,14 @@
+<div class="admin-login-container">
+  <h2>Вход в административную панель</h2>
+
+  <form (ngSubmit)="login()" class="login-form">
+    <label for="password">Пароль:</label>
+    <input type="password" [(ngModel)]="password" name="password" required />
+
+    <button type="submit">Войти</button>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </form>
+</div>
