@@ -8,8 +8,8 @@
     "install-server": "cd backend/server && npm install",
     "build-server": "cd backend/server && npm run build",
     "start-server": "cd backend/server && npm start",
-    "build": "npm --prefix backend/server run build",
-    "start": "npm --prefix backend/server start",
+    "build": "cd backend/server && npm run build",
+    "start": "node dist/server.js",
     "dev:server": "ts-node-dev --respawn --transpile-only server/server.ts",
     "build:front": "ng build"
   },
