@@ -21,7 +21,7 @@ export class AdminLoginComponent {
   ) {}
 
   login() {
-    this.http.post<any>('http://localhost:3000/api/admin/login', {
+    this.http.post<any>('https://inform-full.onrender.com', {
       password: this.password
   }).subscribe({
     next: (res) => {

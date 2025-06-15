@@ -38,7 +38,7 @@ export class AdminMessagesComponent implements OnInit {
   const token = localStorage.getItem('auth_token');
   const headers = { Authorization: `Bearer ${token}` };
 
-  this.http.get<Message[]>('http://localhost:3000/api/messages', { headers }).subscribe({
+  this.http.get<Message[]>('https://inform-full.onrender.com', { headers }).subscribe({
     next: (data) => {
       this.messages = data;
       this.isLoading = false;
@@ -65,7 +65,7 @@ deleteMessage(id: number) {
   const token = localStorage.getItem('auth_token');
   const headers = { Authorization: `Bearer ${token}` };
 
-  this.http.delete(`http://localhost:3000/api/messages/${id}`, { headers }).subscribe({
+  this.http.delete(`https://inform-full.onrender.com`, { headers }).subscribe({
     next: () => {
       this.messages = this.messages.filter(msg => msg.id !== id);
     },
@@ -82,7 +82,7 @@ toggleStatus(msg: Message) {
 
   const newStatus = msg.status === 'done' ? 'new' : 'done';
 
-  this.http.patch(`http://localhost:3000/api/messages/${msg.id}/status`, { status: newStatus }, { headers }).subscribe({
+  this.http.patch(`https://inform-full.onrender.com`, { status: newStatus }, { headers }).subscribe({
     next: () => {
       msg.status = newStatus;
     },
