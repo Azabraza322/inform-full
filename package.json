@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "build": "cd backend/server && npm install && npm run build",
+    "start": "cd backend/server && npm start",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:server": "tsc -p server/tsconfig.json",
     "start:server": "node dist/server/server.js",
     "dev:server": "ts-node-dev --respawn --transpile-only server/server.ts",
-    "build": "tsc -p backend/server",
     "build:front": "ng build"
   },
   "private": true,
