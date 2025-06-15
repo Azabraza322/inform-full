@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "cd backend/server && npm start",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "install-server": "cd backend/server && npm install",
-    "build-server": "cd backend/server && npm run build-ts",
+    "build-server": "cd backend/server && npm run build",
     "start-server": "cd backend/server && npm start",
-    "build": "npm run install-server && npm run build-server",
+    "build": "npm --prefix backend/server run build",
+    "start": "npm --prefix backend/server start",
     "dev:server": "ts-node-dev --respawn --transpile-only server/server.ts",
     "build:front": "ng build"
   },
