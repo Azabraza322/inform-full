@@ -43,7 +43,6 @@ pool.getConnection((err, connection) => {
   connection.release();
 });
 
-console.log('Создаю таблицу messages...');
 const initDatabase = async (): Promise<void> => {
   try {
     await pool.promise().execute(`
