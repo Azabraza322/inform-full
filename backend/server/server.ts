@@ -18,6 +18,7 @@ app.use(cors({ origin: 'https://z904541u.beget.tech' }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+console.log(process.env)
 // ===== 1. Подключение к MySQL =====
 const pool = mysql.createPool({
   host: process.env.MYSQLHOST,
