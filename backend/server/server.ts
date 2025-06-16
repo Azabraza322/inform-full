@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.use(cors({ origin: 'inform-full.netlify.app' }));
+app.use(cors({ origin: ['inform-full.netlify.app', 'http://localhost:4200'] }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 

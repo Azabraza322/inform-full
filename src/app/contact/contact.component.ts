@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environments/environment'; // Импорт environment
 
 @Component({
   selector: 'app-contact',
@@ -12,47 +13,42 @@ import { FormsModule } from '@angular/forms';
 })
 export class ContactComponent {
   isModalOpen = false;
-
-  form = {
-    message: '',
-    phone: '',
-    email: ''
-  };
+  form = { message: '', phone: '', email: '' };
+  isLoading = false; // Добавим индикатор загрузки
 
   constructor(private http: HttpClient) {}
 
-  openModal() {
-    this.isModalOpen = true;
-  }
-
-  closeModal() {
-    this.isModalOpen = false;
-  }
+  openModal() { this.isModalOpen = true; }
+  closeModal() { this.isModalOpen = false; }
 
   submitForm() {
-  if (this.form.message && this.form.phone && this.validateEmail(this.form.email)) {
-    fetch('http://localhost:3000/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.form)
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log('Ответ сервера:', data);
-      alert('Ваше сообщение отправлено!');
-      this.closeModal();
-    })
-    .catch(err => {
-      console.error('Ошибка отправки:', err);
-      alert('Ошибка при отправке сообщения. Попробуйте позже.');
-    });
-  } else {
-    alert('Пожалуйста, заполните все поля корректно.');
-  }
-}
+    if (!this.validateForm()) {
+      alert('Пожалуйста, заполните все поля корректно.');
+      return;
+    }
 
+    this.isLoading = true;
+    
+    // Используем environment.apiUrl вместо хардкодного URL
+    this.http.post(`${environment.apiUrl}/api/contact`, this.form)
+      .subscribe({
+        next: () => {
+          alert('Ваше сообщение отправлено!');
+          this.closeModal();
+        },
+        error: (err) => {
+          console.error('Ошибка отправки:', err);
+          alert('Ошибка при отправке сообщения. Попробуйте позже.');
+        },
+        complete: () => this.isLoading = false
+      });
+  }
+
+  validateForm(): boolean {
+    return this.form.message.trim() !== '' && 
+           this.form.phone.trim() !== '' && 
+           this.validateEmail(this.form.email);
+  }
 
   validateEmail(email: string): boolean {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

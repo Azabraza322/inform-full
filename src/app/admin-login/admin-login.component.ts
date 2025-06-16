@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
-
 @Component({
   selector: 'app-admin-login',
   standalone: true,
@@ -16,21 +15,30 @@ import { environment } from '../../environments/environment';
 export class AdminLoginComponent {
   password = '';
   errorMessage = '';
+  isLoading = false;
 
   constructor(
     private router: Router,
-    private http: HttpClient // Добавлен HttpClient
+    private http: HttpClient
   ) {}
 
   login() {
-  this.http.post<{ token: string }>(`${environment.apiUrl}/api/admin/login`, { password: this.password }).subscribe({
-    next: (res) => {
-      localStorage.setItem('auth_token', res.token);
-      this.router.navigate(['/admin/messages']);
-    },
-    error: (err) => {
-      this.errorMessage = err.error?.error || 'Ошибка авторизации';
-    }
-  });
-}
+    this.isLoading = true;
+    this.errorMessage = '';
+    
+    this.http.post<{ token: string }>(
+      `${environment.apiUrl}/api/admin/login`, 
+      { password: this.password }
+    ).subscribe({
+      next: (res) => {
+        localStorage.setItem('auth_token', res.token);
+        this.router.navigate(['/admin/messages']);
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.error || 'Ошибка авторизации';
+        console.error('Ошибка входа:', err);
+      },
+      complete: () => this.isLoading = false
+    });
+  }
 }
