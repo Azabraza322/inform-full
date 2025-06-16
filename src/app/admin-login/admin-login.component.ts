@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+
 
 @Component({
   selector: 'app-admin-login',
@@ -21,9 +23,7 @@ export class AdminLoginComponent {
   ) {}
 
   login() {
-    this.http.post<any>('https://inform-full.onrender.com', {
-      password: this.password
-  }).subscribe({
+  this.http.post<{ token: string }>(`${environment.apiUrl}/api/admin/login`, { password: this.password }).subscribe({
     next: (res) => {
       localStorage.setItem('auth_token', res.token);
       this.router.navigate(['/admin/messages']);
@@ -32,5 +32,5 @@ export class AdminLoginComponent {
       this.errorMessage = err.error?.error || 'Ошибка авторизации';
     }
   });
-  }
+}
 }
