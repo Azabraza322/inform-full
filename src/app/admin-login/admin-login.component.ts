@@ -25,14 +25,20 @@ export class AdminLoginComponent {
   login() {
     this.isLoading = true;
     this.errorMessage = '';
-    
+
     this.http.post<{ token: string }>(
-      `${environment.apiUrl}/api/admin/login`, 
-      { password: this.password }
+      `${environment.apiUrl}/api/admin/login`,
+      { password: this.password },
+      { withCredentials: true }
     ).subscribe({
       next: (res) => {
-        localStorage.setItem('auth_token', res.token);
-        this.router.navigate(['/admin/messages']);
+        const token = res?.token;
+        if (token) {
+          localStorage.setItem('auth_token', token);
+          this.router.navigate(['/admin/messages']);
+        } else {
+          this.errorMessage = 'Токен не получен';
+        }
       },
       error: (err) => {
         this.errorMessage = err.error?.error || 'Ошибка авторизации';

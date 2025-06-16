@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { environment } from '../../environments/environment'; // Импорт environment
+import { environment } from '../../environments/environment';
 
 interface Message {
   id: number;
@@ -25,9 +26,8 @@ export class AdminMessagesComponent implements OnInit {
   messages: Message[] = [];
   isLoading: boolean = true;
   error: string = '';
-  router: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.loadMessages();
@@ -41,7 +41,6 @@ export class AdminMessagesComponent implements OnInit {
       'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
     });
 
-    // Используем environment.apiUrl
     this.http.get<Message[]>(`${environment.apiUrl}/api/messages`, { headers })
       .subscribe({
         next: (data) => {
@@ -52,9 +51,9 @@ export class AdminMessagesComponent implements OnInit {
           this.error = 'Ошибка при загрузке сообщений';
           this.isLoading = false;
           console.error('Ошибка загрузки:', err);
-          
-          // Если ошибка авторизации, перенаправляем на логин
-          if (err.status === 401) {
+
+          if (err.status === 401 || err.status === 403) {
+            localStorage.removeItem('auth_token');
             this.router.navigate(['/admin/login']);
           }
         }
@@ -76,7 +75,6 @@ export class AdminMessagesComponent implements OnInit {
       'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
     });
 
-    // Используем environment.apiUrl
     this.http.delete(`${environment.apiUrl}/api/messages/${id}`, { headers })
       .subscribe({
         next: () => {
@@ -91,15 +89,14 @@ export class AdminMessagesComponent implements OnInit {
 
   toggleStatus(msg: Message) {
     const newStatus = msg.status === 'done' ? 'new' : 'done';
-    
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
       'Content-Type': 'application/json'
     });
 
-    // Используем environment.apiUrl
     this.http.patch(
-      `${environment.apiUrl}/api/messages/${msg.id}`,
+      `${environment.apiUrl}/api/messages/${msg.id}/status`,
       { status: newStatus },
       { headers }
     ).subscribe({
@@ -113,10 +110,9 @@ export class AdminMessagesComponent implements OnInit {
     });
   }
 
-  // admin-messages.component.ts
   logout() {
-  localStorage.removeItem('auth_token');
-  this.router.navigate(['/admin/login']);
+    localStorage.removeItem('auth_token');
+    this.router.navigate(['/admin/login']);
   }
 
   formatDate(dateString: string): string {
