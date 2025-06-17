@@ -37,24 +37,39 @@
     <h2>Наши продукты</h2>
     <p>Решения, которые помогут вашему бизнесу расти</p>
   </div>
-  
+
   <div class="features-grid">
-    <div class="feature-card" *ngFor="let product of products">
-      <div class="feature-icon" [style.background]="product.color">
-        <i class="fas" [ngClass]="product.icon"></i>
-      </div>
-      <h3>{{ product.title }}</h3>
-      <p class="feature-desc">{{ product.description }}</p>
-      <a [routerLink]="['/product']" class="feature-link">Подробнее →</a>
+  <div class="feature-card">
+    <div class="feature-icon blue-icon">
+      <i class="fas fa-truck-moving"></i>
     </div>
+    <h3>Логистика</h3>
+    <p class="feature-desc">Обмен транспортными накладными в электронном виде без бумажных дублирований между сторонами.</p>
   </div>
 
-  <div class="see-all-button-wrapper">
-    <button class="see-all-button" [routerLink]="['/product']">
-      Перейти ко всем продуктам
-    </button> 
+  <div class="feature-card">
+    <div class="feature-icon blue-icon">
+      <i class="fas fa-file-invoice-dollar"></i>
+    </div>
+    <h3>Бухучет и отчетность</h3>
+    <p class="feature-desc">Отчеты, сдача налогов, расчет зарплаты, больничных, отпускных и другие сервисы для бухгалтера. Ведение бизнеса без бухгалтера с помощью сервиса Эльба.</p>
   </div>
-</section>  
+
+  <div class="feature-card">
+    <div class="feature-icon blue-icon">
+      <i class="fas fa-file-signature"></i>
+    </div>
+    <h3>Электронный документооборот</h3>
+    <p class="feature-desc">Обмен документами в электронном виде без дублирования на бумаге между сторонами: грузоотправителем, перевозчиком, грузополучателем.</p>
+  </div>
+</div>
+
+  <div class="see-all-button-wrapper">
+    <button class="see-all-button" routerLink="/product">
+      Перейти ко всем продуктам
+    </button>
+  </div>
+</section>
 
 <section class="about-section">
   <div class="about-container">

@@ -129,7 +129,58 @@
   }
 }
 
+.logout-btn {
+  margin-top: 30px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .messages-container {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  .message-card {
+    padding: 12px;
+  }
+
+  .contact-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .message-actions {
+    flex-direction: column;
+    gap: 8px;
+
+    button {
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+
+  .logout-btn {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px 0;
+  }
 }

@@ -10,14 +10,14 @@
   color: #333;
 }
 
-.contacts-page section{
-  width: 1080px;
+.contacts-page section {
+  width: 100%;
+  max-width: 1080px;
 }
 
 .contacts-page section #yandex-map{
   height: 450px;
 }
-
 
 .section-title {
   font-size: 36px;
@@ -130,6 +130,7 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-family: inherit;
+  resize: vertical;
 }
 
 button[type="submit"] {
@@ -185,5 +186,25 @@ button[type="submit"] {
   .navigation ul {
     flex-direction: column;
     gap: 10px;
+  }
+  .contacts-page {
+    padding: 10px;
+  }
+
+  .contact-section {
+    padding: 10px;
+  }
+
+  .open-btn {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto 0;
+    font-size: 14px;
+  }
+
+  iframe {
+    width: 100% !important;
+    height: 300px;
   }
 }
