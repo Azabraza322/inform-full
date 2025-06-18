@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -8,9 +8,8 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'] // ← исправлено
+  styleUrls: ['./footer.component.scss'] 
 })
-
 export class FooterComponent implements AfterViewInit, OnDestroy {
   @ViewChild('navigation', { static: true }) navigationRef!: ElementRef;
   activeItem = 'home';
@@ -18,6 +17,7 @@ export class FooterComponent implements AfterViewInit, OnDestroy {
     width: '0px',
     transform: 'translateX(0px)'
   };
+  showAdminLink = false; // 👈 добавляем сюда
 
   private resizeObserver: ResizeObserver | null = null;
 
@@ -38,6 +38,17 @@ export class FooterComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.resizeObserver?.disconnect();
   }
+
+  @HostListener('document:keyup.control', ['$event'])
+onCtrlPress(event: KeyboardEvent) {
+  this.showAdminLink = true;
+}
+
+@HostListener('document:keydown.control', ['$event'])
+onCtrlRelease(event: KeyboardEvent) {
+  this.showAdminLink = false;
+}
+
 
   private updateActiveItem(url: string) {
     if (url.includes('/product')) this.activeItem = 'product';

@@ -73,6 +73,31 @@
   color: #007bff;
 }
 
+.admin-login {
+  text-align: right;
+  margin-top: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  a {
+    font-size: 12px;
+    color: #888;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      color: #555;
+    }
+  }
+}
+
+
 @media (max-width: 768px) {
   .footer-container {
     flex-direction: column;
@@ -86,5 +111,9 @@
 
   .navigation ul {
     gap: 10px;
+  }
+
+  .admin-login {
+    text-align: center;
   }
 }
