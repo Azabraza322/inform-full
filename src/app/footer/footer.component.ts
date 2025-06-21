@@ -39,12 +39,12 @@ export class FooterComponent implements AfterViewInit, OnDestroy {
     this.resizeObserver?.disconnect();
   }
 
-  @HostListener('document:keyup.control', ['$event'])
+  @HostListener('document:keydown.control', ['$event'])
 onCtrlPress(event: KeyboardEvent) {
   this.showAdminLink = true;
 }
 
-@HostListener('document:keydown.control', ['$event'])
+@HostListener('document:keyup.control', ['$event'])
 onCtrlRelease(event: KeyboardEvent) {
   this.showAdminLink = false;
 }
